@@ -1,1 +1,66 @@
+esphome:
+  name: test
+  platform: ESP8266
+  board: esp01_1m
+  esp8266_restore_from_flash: False
+  on_boot:
+    priority: 400 # set actual output on boot after all hadrware setup
+    then:
+      - lambda: |- 
+          if(id(switch_prev_state)){
+            id(output1).turn_on();
+          }
 
+external_components:
+  - source: components
+
+globals:
+  - id: switch_prev_state
+    type: bool
+    restore_value: no
+    initial_value: "false"
+
+i2c:
+  sda: GPIO4
+  scl: GPIO5
+
+i2c_eeprom:
+  - id: my_eeprom
+    size: 16KB
+    on_setup:
+      then:
+        - lambda: |-
+            uint8_t prev_state[2];
+            if(!my_eeprom->get(0x0001, prev_state, sizeof(prev_state))){
+              ESP_LOGE("eeprom","Reading prev");
+              return;
+            }
+            ESP_LOGD("eeprom","Prev 0x%02X, 0x%02X", prev_state[0], prev_state[1]);
+            id(switch_prev_state) = prev_state[0];
+
+button:
+  - platform: restart
+    name: "Restart"
+
+output:
+  - platform: gpio
+    id: output1
+    pin:
+      number: GPIO14
+
+switch:
+  - platform: template
+    name: "Test Switch"
+    restore_mode: DISABLED
+    lambda: |-
+      return id(switch_prev_state);
+    turn_on_action:
+      - output.turn_on: output1
+      - lambda: |-
+          my_eeprom->put(0x0001, true);
+          id(switch_prev_state) = true;
+    turn_off_action:
+      - output.turn_off: output1
+      - lambda: |-
+          my_eeprom->put(0x0001, false);
+          id(switch_prev_state) = false;
