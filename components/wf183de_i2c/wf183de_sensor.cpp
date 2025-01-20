@@ -1,4 +1,4 @@
-#include "wf183de_sensor.h"
+#include "wf183de_i2c_sensor.h"
 #include "esphome/core/hal.h"
 #include "esphome/core/log.h"
 
