@@ -1,3 +1,2 @@
-Mysentech(敏源传感)M1820Z温度传感器接入esphome
-
-转载https://bbs.hassbian.com/thread-26116-1-1.html
+注释掉one_wire的ROM ID CRC校验(47~51行，只保留50行)代码，否则导致设备列表中没有M1820Z。
+M1820Z的数据手册有说明：ROMID最后两字节为00，不可做CRC校验。
