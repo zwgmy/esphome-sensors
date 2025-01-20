@@ -1,87 +1,45 @@
 #pragma once
-#include "esphome.h"
+
+#include "esphome/core/component.h"
 #include "esphome/components/i2c/i2c.h"
-
-#define WF183DE_I2C_ADDRESS 0x6D  // 使用实际的I2C地址
-
+#include "esphome/components/sensor/sensor.h"
 
 namespace esphome {
-namespace wf183de {
+namespace wf180 {
 
-class WF183DESensor : public PollingComponent {
+class WF180Component : public PollingComponent, public i2c::I2CDevice {
  public:
-  //Sensor *temperature_sensor = new Sensor();
-  //Sensor *pressure_sensor = new Sensor();
-  Sensor *temperature_sensor{new Sensor()};
-  Sensor *pressure_sensor{new Sensor()};
-  //WF183DESensor() : PollingComponent(10000) {}  //表示每30秒更新一次  
-  WF183DESensor(uint32_t update_interval) : PollingComponent(update_interval) {}
+  void set_temperature_sensor(sensor::Sensor *temperature_sensor) { temperature_sensor_ = temperature_sensor; }
+  void set_pressure_sensor(sensor::Sensor *pressure_sensor) { pressure_sensor_ = pressure_sensor; }
 
-  Sensor *get_temperature_sensor() { return temperature_sensor; }
-  Sensor *get_pressure_sensor() { return pressure_sensor; }
-
-  void setup() override 
-  {
-    ESP_LOGD("WF183DE", "Sensor setup completed");
+  void setup() override {
+    // 初始化WF180传感器
   }
 
   void update() override {
-    // Trigger temperature reading
-    Wire.beginTransmission(WF183DE_I2C_ADDRESS);  // I2C 地址
-    Wire.write(0x0A);  // 温度命令寄存器
-    Wire.write(0x04);  // 触发温度转换命令
-    if (Wire.endTransmission() != 0) 
-    {
-      ESP_LOGE("WF183DE", "Failed to start temperature conversion");
-      return;
-    }
-    delay(40);//10
+    // 从WF180传感器读取数据
+    float temperature = read_temperature();
+    float pressure = read_pressure();
+    if (temperature_sensor_ != nullptr)
+      temperature_sensor_->publish_state(temperature);
+    if (pressure_sensor_ != nullptr)
+      pressure_sensor_->publish_state(pressure);
+  }
 
-    // Read temperature
-    Wire.beginTransmission(WF183DE_I2C_ADDRESS);
-    Wire.write(0x0F);  // 温度高字节
-    Wire.endTransmission();
-    //delay(10);  // 再次延迟以确保数据可用
-    Wire.requestFrom(WF183DE_I2C_ADDRESS, 2);
-    if (Wire.available() == 2) 
-    {
-      int16_t temp_raw = (Wire.read() << 8) | Wire.read();
-      float temperature = temp_raw / 10.0;
-      ESP_LOGD("WF183DE", "Temperature raw: %d, converted: %.1f", temp_raw, temperature);
-      temperature_sensor->publish_state(temperature);
-    } else 
-    {
-      ESP_LOGE("WF183DE", "Failed to read temperature data");
-    }
+ protected:
+  sensor::Sensor *temperature_sensor_{nullptr};
+  sensor::Sensor *pressure_sensor_{nullptr};
 
-    // Trigger pressure reading
-    Wire.beginTransmission(WF183DE_I2C_ADDRESS);
-    Wire.write(0x0A);
-    Wire.write(0x06);  // 压力命令
-    if (Wire.endTransmission() != 0) 
-    {
-      ESP_LOGE("WF183DE", "Failed to start pressure conversion");
-      return;
-    }
-    delay(40);//10
+  float read_temperature() {
+    // 实现读取温度的逻辑
+    return 25.0;  // 示例值
+  }
 
-    // Read pressure
-    Wire.beginTransmission(WF183DE_I2C_ADDRESS);
-    Wire.write(0x0B);
-    Wire.endTransmission();
-    //delay(10);  // 再次延迟以确保数据可用
-    Wire.requestFrom(WF183DE_I2C_ADDRESS, 4);
-    if (Wire.available() == 4) 
-    {
-      uint32_t pressure_raw = (Wire.read() << 24) | (Wire.read() << 16) | (Wire.read() << 8) | Wire.read();
-      float pressure = pressure_raw / 1000.0;
-      ESP_LOGD("WF183DE", "Pressure raw: %u, converted: %.1f", pressure_raw, pressure);
-      pressure_sensor->publish_state(pressure);
-    } else {
-      ESP_LOGE("WF183DE", "Failed to read pressure data");
-           }
-  }  //void update() override
+  float read_pressure() {
+    // 实现读取压力的逻辑
+    return 1013.25;  // 示例值
+  }
 };
 
-}  // namespace wf183de
+}  // namespace wf180
 }  // namespace esphome
