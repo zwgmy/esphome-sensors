@@ -6,7 +6,7 @@ from esphome.const import UNIT_CELSIUS, UNIT_HECTOPASCAL, ICON_THERMOMETER, ICON
 
 DEPENDENCIES = ['i2c']
 
-wf180_ns = cg.esphome_ns.namespace('wf180')
+wf180_ns = cg.esphome_ns.namespace('wf180de_i2c')
 WF180Component = wf180_ns.class_('WF180Component', cg.PollingComponent, i2c.I2CDevice)
 
 CONFIG_SCHEMA = sensor.sensor_schema(WF180Component).extend({
