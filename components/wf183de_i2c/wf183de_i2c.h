@@ -72,8 +72,8 @@ class WF183DE_I2C_Sensor : public PollingComponent, public i2c::I2CDevice {
     }
   }
 
-  Sensor *get_temperature_sensor() { return temperature_sensor; }
-  Sensor *get_pressure_sensor() { return pressure_sensor; }
+  void set_temperature_sensor(Sensor *sensor) { temperature_sensor = sensor; }
+  void set_pressure_sensor(Sensor *sensor) { pressure_sensor = sensor; }
 };
 
 }  // namespace wf183de_i2c
