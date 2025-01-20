@@ -13,7 +13,7 @@ CONFIG_SCHEMA = sensor.sensor_schema(WF183DE_I2C_Sensor).extend({
     cv.GenerateID(): cv.declare_id(WF183DE_I2C_Sensor),
     cv.Optional('temperature'): sensor.sensor_schema(UNIT_CELSIUS, ICON_THERMOMETER, 1),
     cv.Optional('pressure'): sensor.sensor_schema(UNIT_HECTOPASCAL, ICON_GAUGE, 1),
-}).extend(cv.COMPONENT_SCHEMA).extend(i2c.i2c_device_schema(0x6D))
+}).extend(cv.COMPONENT_SCHEMA).extend(i2c.i2c_device_schema(WF183DE_I2C_ADDRESS))
 
 def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
