@@ -5,7 +5,7 @@
 #include "esphome/components/sensor/sensor.h"
 
 namespace esphome {
-namespace wf180 {
+namespace wf180de_i2c {
 
 class WF180Component : public PollingComponent, public i2c::I2CDevice {
  public:
@@ -41,5 +41,5 @@ class WF180Component : public PollingComponent, public i2c::I2CDevice {
   }
 };
 
-}  // namespace wf180
+}  // namespace wf180de_i2c
 }  // namespace esphome
