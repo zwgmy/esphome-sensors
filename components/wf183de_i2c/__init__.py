@@ -1,1 +1,1 @@
-from . import sensor
+CODEOWNERS = ["@ssieb"]
