@@ -1,5 +1,6 @@
-##wf180de i2c 
-'<external_components:>'
+###wf180de i2c 
+'''
+external_components:
   - source:
       type: git
       url: https://github.com/zwgmy/esphome-sensors
@@ -14,4 +15,5 @@ sensor:
       name: "WF183DE Temperature"
     pressure:
       name: "WF183DE Pressure"
-    update_interval: 5s    >'
+    update_interval: 5s 
+'''
