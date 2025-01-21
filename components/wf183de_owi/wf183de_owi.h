@@ -7,7 +7,7 @@
 namespace esphome {
 namespace wf183de_owi {
 
-class WF183DE_OWI_Sensor : public PollingComponent, public one_wire::OneWireBus {
+class WF183DE_OWI_Sensor : public PollingComponent, public one_wire::OneWireDevice {
  public:
   sensor::Sensor *temperature_sensor;
   sensor::Sensor *pressure_sensor;
