@@ -1,13 +1,13 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
 from esphome import pins
-from esphome.components import sensor, one_wire
+from esphome.components import sensor, dallas
 from esphome.const import UNIT_CELSIUS, UNIT_HECTOPASCAL, ICON_THERMOMETER, ICON_GAUGE, CONF_ID, CONF_PIN
 
-DEPENDENCIES = ['one_wire']
+DEPENDENCIES = ['dallas']
 
 wf183de_owi_ns = cg.esphome_ns.namespace('wf183de_owi')
-WF183DE_OWI_Sensor = wf183de_owi_ns.class_('WF183DE_OWI_Sensor', cg.PollingComponent, one_wire.OneWire)
+WF183DE_OWI_Sensor = wf183de_owi_ns.class_('WF183DE_OWI_Sensor', cg.PollingComponent, dallas.DallasComponent)
 
 CONFIG_SCHEMA = cv.Schema({
     cv.GenerateID(): cv.declare_id(WF183DE_OWI_Sensor),
@@ -21,6 +21,7 @@ def to_code(config):
     pin = yield cg.gpio_pin_expression(config[CONF_PIN])
     var = cg.new_Pvariable(config[CONF_ID], config['update_interval'], pin)
     yield cg.register_component(var, config)
+    yield dallas.register_dallas_component(var, config)
 
     if 'temperature' in config:
         sens = yield sensor.new_sensor(config['temperature'])
