@@ -14,6 +14,7 @@ one_wire:
     
 sensor:
   - platform: wf183de_owi
+    address: 0x1234567812345628  # 替换为您实际的传感器地址
     temperature:
       name: "WF183DE Temperature"
     pressure:
