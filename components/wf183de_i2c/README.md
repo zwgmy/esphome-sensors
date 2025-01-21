@@ -1,5 +1,5 @@
 ###wf180de i2c 
-'''c
+```c
 external_components:
   - source:
       type: git
@@ -16,4 +16,4 @@ sensor:
     pressure:
       name: "WF183DE Pressure"
     update_interval: 5s 
-'''
+```
