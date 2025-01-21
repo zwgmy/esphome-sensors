@@ -1,5 +1,5 @@
 ###wf180de i2c 
-'''
+'''c
 external_components:
   - source:
       type: git
