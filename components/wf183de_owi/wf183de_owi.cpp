@@ -8,11 +8,11 @@ namespace wf183de_owi {
 static const char *TAG = "wf183de_owi";
 
 WF183DE_OWI_Sensor::WF183DE_OWI_Sensor(uint32_t update_interval, InternalGPIOPin *pin, uint64_t address)
-    : PollingComponent(update_interval), DallasComponent(pin), address_(address) {}
+    : PollingComponent(update_interval), OneWire(pin), address_(address) {}
 
 void WF183DE_OWI_Sensor::setup() {
   ESP_LOGCONFIG(TAG, "Setting up WF183DE OWI Sensor...");
-  DallasComponent::setup();
+  OneWire::setup();
 }
 
 void WF183DE_OWI_Sensor::update() {
