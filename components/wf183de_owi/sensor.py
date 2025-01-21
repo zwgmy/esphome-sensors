@@ -1,7 +1,9 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
 from esphome.components import sensor, one_wire
-from esphome.const import UNIT_CELSIUS, UNIT_HECTOPASCAL, ICON_THERMOMETER, ICON_GAUGE, CONF_ID, CONF_ADDRESS, CONF_ONE_WIRE_ID
+from esphome.const import UNIT_CELSIUS, UNIT_HECTOPASCAL, ICON_THERMOMETER, ICON_GAUGE, CONF_ID, CONF_ADDRESS
+
+CONF_ONE_WIRE_ID = "one_wire_id"
 
 DEPENDENCIES = ['one_wire']
 
