@@ -1,36 +1,60 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
-from esphome.components import sensor, one_wire
-from esphome.const import UNIT_CELSIUS, UNIT_HECTOPASCAL, ICON_THERMOMETER, ICON_GAUGE, CONF_ID, CONF_ADDRESS
+from esphome.components import one_wire, sensor
+from esphome.const import (
+    DEVICE_CLASS_TEMPERATURE,
+    DEVICE_CLASS_PRESSURE,
+    STATE_CLASS_MEASUREMENT,
+    UNIT_CELSIUS,
+    UNIT_HECTOPASCAL,
+)
 
-# 定义 CONF_ONE_WIRE_ID 常量
-CONF_ONE_WIRE_ID = "one_wire_id"
+CONF_UPDATE_INTERVAL = "update_interval"
+CONF_ADDRESS = "address"
 
-DEPENDENCIES = ['one_wire']
+wf183de_owi_ns = cg.esphome_ns.namespace("wf183de_owi")
 
-wf183de_owi_ns = cg.esphome_ns.namespace('wf183de_owi')
-WF183DE_OWI_Sensor = wf183de_owi_ns.class_('WF183DE_OWI_Sensor', cg.PollingComponent, one_wire.OneWireDevice)
+WF183DE_OWI_Sensor = wf183de_owi_ns.class_(
+    "WF183DE_OWI_Sensor",
+    cg.PollingComponent,
+    one_wire.OneWireDevice,
+)
 
-CONFIG_SCHEMA = cv.Schema({
-    cv.GenerateID(): cv.declare_id(WF183DE_OWI_Sensor),
-    cv.Required(CONF_ONE_WIRE_ID): cv.use_id(one_wire.OneWireBus),
-    cv.Required(CONF_ADDRESS): cv.hex_int,
-    cv.Optional('temperature'): sensor.sensor_schema(unit_of_measurement=UNIT_CELSIUS, icon=ICON_THERMOMETER, accuracy_decimals=1),
-    cv.Optional('pressure'): sensor.sensor_schema(unit_of_measurement=UNIT_HECTOPASCAL, icon=ICON_GAUGE, accuracy_decimals=1),
-    cv.Optional('update_interval', default="60s"): cv.update_interval,
-}).extend(cv.COMPONENT_SCHEMA)
+CONFIG_SCHEMA = (
+    cv.Schema(
+        {
+            cv.GenerateID(): cv.declare_id(WF183DE_OWI_Sensor),
+            cv.Required(CONF_ADDRESS): cv.hex_int,
+            cv.Optional(CONF_UPDATE_INTERVAL, default="60s"): cv.update_interval,
+            cv.Optional("temperature"): sensor.sensor_schema(
+                WF183DE_OWI_Sensor,
+                unit_of_measurement=UNIT_CELSIUS,
+                accuracy_decimals=1,
+                device_class=DEVICE_CLASS_TEMPERATURE,
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+            cv.Optional("pressure"): sensor.sensor_schema(
+                WF183DE_OWI_Sensor,
+                unit_of_measurement=UNIT_HECTOPASCAL,
+                accuracy_decimals=1,
+                device_class=DEVICE_CLASS_PRESSURE,
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
+        }
+    )
+    .extend(one_wire.one_wire_device_schema())
+    .extend(cv.polling_component_schema("60s"))
+)
 
-def to_code(config):
-    address = config[CONF_ADDRESS]
-    parent = yield cg.get_variable(config[CONF_ONE_WIRE_ID])
-    var = cg.new_Pvariable(config[CONF_ID], config['update_interval'], address)
-    yield cg.register_component(var, config)
-    yield one_wire.register_one_wire_device(var, parent)
+async def to_code(config):
+    var = cg.new_Pvariable(config[CONF_ID], config[CONF_ADDRESS], config[CONF_UPDATE_INTERVAL])
+    await cg.register_component(var, config)
+    await one_wire.register_one_wire_device(var, config)
 
-    if 'temperature' in config:
-        sens = yield sensor.new_sensor(config['temperature'])
-        cg.add(var.set_temperature_sensor(sens))
+    if "temperature" in config:
+        temp_sensor = await sensor.new_sensor(config["temperature"])
+        cg.add(var.set_temperature_sensor(temp_sensor))
 
-    if 'pressure' in config:
-        sens = yield sensor.new_sensor(config['pressure'])
-        cg.add(var.set_pressure_sensor(sens))
+    if "pressure" in config:
+        pressure_sensor = await sensor.new_sensor(config["pressure"])
+        cg.add(var.set_pressure_sensor(pressure_sensor))
