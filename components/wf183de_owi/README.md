@@ -4,6 +4,7 @@ external_components:
   - source:
       type: git
       url: https://github.com/zwgmy/esphome-sensors
+    refresh: 5s
     components: [wf183de_owi]
 
 one_wire:
