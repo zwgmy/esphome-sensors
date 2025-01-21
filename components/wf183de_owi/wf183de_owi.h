@@ -12,8 +12,8 @@ class WF183DE_OWI_Sensor : public PollingComponent, public one_wire::OneWireBus 
   sensor::Sensor *temperature_sensor;
   sensor::Sensor *pressure_sensor;
 
-  // 构造函数：传入更新间隔、One-Wire引脚和传感器地址
-  WF183DE_OWI_Sensor(uint32_t update_interval, InternalGPIOPin *pin, uint64_t address);
+  // 构造函数：传入更新间隔和传感器地址
+  WF183DE_OWI_Sensor(uint32_t update_interval, uint64_t address);
 
   void setup() override;
   void update() override;
