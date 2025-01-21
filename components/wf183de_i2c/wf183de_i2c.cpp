@@ -8,7 +8,6 @@ static const char *TAG = "wf183de_i2c";
 
 void WF183DE_I2C_Sensor::setup() {
   ESP_LOGCONFIG(TAG, "Setting up WF183DE I2C Sensor...");
-  // 设置代码
 }
 
 void WF183DE_I2C_Sensor::update() {
