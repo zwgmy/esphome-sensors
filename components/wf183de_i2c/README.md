@@ -8,6 +8,11 @@ external_components:
     components: [wf183de_i2c]
 
 
+i2c:
+  sda: GPIO4
+  scl: GPIO5
+  scan: True
+
 sensor:
 
   - platform: wf183de_i2c
