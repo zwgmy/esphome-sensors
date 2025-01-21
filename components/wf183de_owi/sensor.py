@@ -7,7 +7,7 @@ from esphome.const import UNIT_CELSIUS, UNIT_HECTOPASCAL, ICON_THERMOMETER, ICON
 DEPENDENCIES = ['one_wire']
 
 wf183de_owi_ns = cg.esphome_ns.namespace('wf183de_owi')
-WF183DE_OWI_Sensor = wf183de_owi_ns.class_('WF183DE_OWI_Sensor', cg.PollingComponent, one_wire.OneWire)
+WF183DE_OWI_Sensor = wf183de_owi_ns.class_('WF183DE_OWI_Sensor', cg.PollingComponent, one_wire.OneWireBus)
 
 CONFIG_SCHEMA = cv.Schema({
     cv.GenerateID(): cv.declare_id(WF183DE_OWI_Sensor),
@@ -23,7 +23,7 @@ def to_code(config):
     address = config[CONF_ADDRESS]
     var = cg.new_Pvariable(config[CONF_ID], config['update_interval'], pin, address)
     yield cg.register_component(var, config)
-    yield one_wire.register_one_wire_component(var, config)
+    yield one_wire.register_one_wire_bus(var, config)
 
     if 'temperature' in config:
         sens = yield sensor.new_sensor(config['temperature'])
