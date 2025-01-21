@@ -1,5 +1,5 @@
 example for reference：
-···
+···c
 external_components:
   - source:
       type: git
