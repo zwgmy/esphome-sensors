@@ -3,6 +3,7 @@ import esphome.config_validation as cv
 from esphome.components import sensor, one_wire
 from esphome.const import UNIT_CELSIUS, UNIT_HECTOPASCAL, ICON_THERMOMETER, ICON_GAUGE, CONF_ID, CONF_ADDRESS
 
+# 定义 CONF_ONE_WIRE_ID 常量
 CONF_ONE_WIRE_ID = "one_wire_id"
 
 DEPENDENCIES = ['one_wire']
