@@ -12,9 +12,14 @@ static const uint8_t WF183DE_COMMAND_READ_SCRATCH_PAD = 0xBE;
 static const uint8_t WF183DE_COMMAND_WRITE_SCRATCH_PAD = 0x4E;
 static const uint8_t WF183DE_COMMAND_COPY_SCRATCH_PAD = 0x48;
 
+WF183DE_OWI_Sensor::WF183DE_OWI_Sensor(uint64_t address, uint32_t update_interval)
+    : PollingComponent(update_interval), one_wire::OneWireDevice() {
+  this->address_ = address;
+}
+
 uint16_t WF183DE_OWI_Sensor::millis_to_wait_for_conversion_() const {
   // 根据需要调整转换时间
-  return 750; // 假设750ms是转换时间
+  return 750;  // 假设750ms是转换时间
 }
 
 void WF183DE_OWI_Sensor::dump_config() {
@@ -60,7 +65,7 @@ void WF183DE_OWI_Sensor::update() {
   });
 }
 
-void IRAM_ATTR WF183DE_OWI_Sensor::read_scratch_pad_int_() {
+void WF183DE_OWI_Sensor::read_scratch_pad_int_() {
   for (uint8_t &i : this->scratch_pad_) {
     i = this->bus_->read8();
   }
