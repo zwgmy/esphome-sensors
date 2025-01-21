@@ -6,7 +6,8 @@ external_components:
   - source:
       type: git
       url: https://github.com/zwgmy/esphome-sensors
-#      ref: dev components/mysentech_m601_m1601_m1820  
+#      ref: dev components/mysentech_m601_m1601_m1820
+    refresh: 5s
     components: [ mysentech_m601_m1601_m1820]
     
 one_wire:
