@@ -1,13 +1,13 @@
 #pragma once
 
 #include "esphome/core/component.h"
-#include "esphome/components/dallas/dallas.h"
+#include "esphome/components/one_wire/one_wire.h"
 #include "esphome/components/sensor/sensor.h"
 
 namespace esphome {
 namespace wf183de_owi {
 
-class WF183DE_OWI_Sensor : public PollingComponent, public dallas::DallasComponent {
+class WF183DE_OWI_Sensor : public PollingComponent, public one_wire::OneWire {
  public:
   sensor::Sensor *temperature_sensor;
   sensor::Sensor *pressure_sensor;
