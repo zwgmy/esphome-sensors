@@ -1,10 +1,14 @@
 #include "wf183de_i2c.h"
 #include "esphome/core/log.h"
+#include "Arduino.h"  // 确保包含 Arduino.h 以使用 delay 函数
 
 namespace esphome {
 namespace wf183de_i2c {
 
 static const char *TAG = "wf183de_i2c";
+
+WF183DE_I2C_Sensor::WF183DE_I2C_Sensor(uint32_t update_interval) 
+  : PollingComponent(update_interval), i2c::I2CDevice() {}
 
 void WF183DE_I2C_Sensor::setup() {
   ESP_LOGCONFIG(TAG, "Setting up WF183DE I2C Sensor...");
