@@ -1,5 +1,5 @@
 ##wf180de i2c 
-'external_components:
+'external_components:'
   - source:
       type: git
       url: https://github.com/zwgmy/esphome-sensors
