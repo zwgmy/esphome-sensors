@@ -1,3 +1,4 @@
+未硬件验证
 ```c
 # External components
 external_components:
