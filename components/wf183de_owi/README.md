@@ -1,4 +1,4 @@
-example for reference：
+example for reference：硬件验证不能获取地址，待改正
 ```c
 external_components:
   - source:
