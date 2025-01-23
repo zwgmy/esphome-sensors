@@ -1,4 +1,4 @@
-###wf180de i2c 以硬件验证正常。
+###wf180de i2c 已硬件验证正常。
 ```c
 external_components:
   - source:
