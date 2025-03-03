@@ -7,7 +7,7 @@
       "ota": {
         "md5": "9859472ac91cb555c93ab68535dc7a98",
         "path": "/esp32c3ch340-2-1.ota.bin",
-        "release_url": "https://github.com/zwgmy/esphome-sensors/blob/be0b11624389cbb00b246729a00e5108dca96f1a/fireware_releases/esp32c3ch340-2-1",
+        "release_url": "https://raw.githubusercontent.com/zwgmy/esphome-sensors/refs/heads/main/fireware_releases/esp32c3ch340-2-1",
         "summary": "Another update",
         "version": "2025.3.3-1"
       }
