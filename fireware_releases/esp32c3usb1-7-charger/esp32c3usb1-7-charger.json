@@ -9,7 +9,7 @@
         "path": "/esp32c3usb1-7-charger.ota.bin",
         "release_url": "https://github.com/zwgmy/esphome-sensors/blob/f4e3b10d9248a3f9176b90c9ea0964d48e97fd5c/fireware_releases/esp32c3usb1-7-charger",
         "summary": "Another update",
-        "version": "2025.3.3"
+        "version": "2025.3.3-1"
       }
     }
   ]
