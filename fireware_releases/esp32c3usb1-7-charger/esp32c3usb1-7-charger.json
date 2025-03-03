@@ -7,7 +7,7 @@
       "ota": {
         "md5": "6e3a0be09484501a5dbf8a4fbf053f69",
         "path": "/local/esp32c3/esp32c3usb1-7-charger.ota.bin",
-        "release_url": "https://github.com/zwgmy/fireware_releases/esp32c3usb1-7-charger",
+        "release_url": "https://github.com/zwgmy/esphome-sensors/fireware_releases/esp32c3usb1-7-charger",
         "summary": "Another update",
        
       }
