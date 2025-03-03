@@ -1,6 +1,6 @@
 {
   "name": "esp32c3ch340-2-1",
-  "version": "2025.3.3",
+  "version": "2025.2.1",
   "builds": [
     {
       "chipFamily": "ESP32-C3",
@@ -9,7 +9,7 @@
         "path": "https://raw.githubusercontent.com/zwgmy/esphome-sensors/main/fireware_releases/esp32c3ch340-2-1/esp32c3ch340-2-1.ota.bin",
         "release_url": "https://raw.githubusercontent.com/zwgmy/esphome-sensors/main/fireware_releases/esp32c3ch340-2-1",
         "summary": "Another update",
-        "version": "2025.3.3"
+        "version": "2025.2.1"
       }
     }
   ]
