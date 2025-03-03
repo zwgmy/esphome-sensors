@@ -9,7 +9,7 @@
         "path": "/esp32c3ch340-2-1.ota.bin",
         "release_url": "https://raw.githubusercontent.com/zwgmy/esphome-sensors/refs/heads/main/fireware_releases/esp32c3ch340-2-1",
         "summary": "Another update",
-        "version": "2025.3.3-1"
+        "version": "2025.3.3"
       }
     }
   ]
