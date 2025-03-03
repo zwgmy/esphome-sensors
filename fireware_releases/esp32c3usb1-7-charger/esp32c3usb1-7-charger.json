@@ -1,0 +1,15 @@
+{
+  "name": "esp32c3usb1-7-charger",
+  "version": "2025.3.3",
+  "builds": [
+    {
+      "chipFamily": "ESP32-C3",
+      "ota": {
+        "md5": "6e3a0be09484501a5dbf8a4fbf053f69",
+        "path": "/local/esp32c3/esp32c3usb1-7-charger.ota.bin",
+        "release_url": "https://github.com/fireware_releases/esp32c3usb1-7-charger",
+        "summary": "Another update",
+      }
+    }
+  ]
+}
