@@ -5,7 +5,7 @@
     {
       "chipFamily": "ESP32-C3",
       "ota": {
-        "md5": "9859472ac91cb555c93ab68535dc7a98",
+        "md5": "2313209a9569a3dde8511920a7be7211",
         "path": "/esp32c3ch340-2-1.ota.bin",
         "release_url": "https://raw.githubusercontent.com/zwgmy/esphome-sensors/refs/heads/main/fireware_releases/esp32c3ch340-2-1",
         "summary": "Another update",
