@@ -100,7 +100,12 @@ void BL0942::loop() {
 }
 
 void BL0942::update() {
-  needUpdate=true;
+//  needUpdate=true;  //zwgmy
+
+  if (reset_) {
+      needUpdate=true;  // zwgmy
+      }
+    
 }
 
 void BL0942::setup() {
