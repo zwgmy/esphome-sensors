@@ -31,12 +31,19 @@ uart:
   baud_rate: 4800
   stop_bits: 1
 
-# ========== 引入 JuRudenko 的本地组件 ==========
-external_components:
-  - source:
-      type: local
-      path: ./custom_components
 
+external_components:
+# 本地组件 ==========
+#  - source:
+#      type: local
+#      path: ./custom_components
+##OR      
+  - source:
+      type: git
+      url: https://github.com/zwgmy/esphome-sensors 
+    refresh: 5s
+    components: [ bl0942]
+    
 # ========== BL0942 传感器配置 ==========
 sensor:
   - platform: bl0942
