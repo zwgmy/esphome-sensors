@@ -37,7 +37,7 @@ class BL0942 : public PollingComponent, public uart::UARTDevice {
   void set_frequency_sensor(sensor::Sensor *frequency_sensor) { frequency_sensor_ = frequency_sensor; }
 
   // 新增 reset 参数，默认值 true（保持原行为）
-  void set_reset(bool reset) { reset_ = reset; } //*******增加zwgmy**************######
+ // void set_reset(bool reset) { reset_ = reset; } //*******增加zwgmy**************######
 
   void loop() override;
 
@@ -54,7 +54,7 @@ class BL0942 : public PollingComponent, public uart::UARTDevice {
   sensor::Sensor *energy_sensor_{nullptr};
   sensor::Sensor *frequency_sensor_{nullptr};
 
-  bool reset_{true};  // 默认 true，但允许外部修改***************增加zwgmy**************###########  
+//  bool reset_{true};  // 默认 true，但允许外部修改***************增加zwgmy**************###########  
 
   // Divide by this to turn into Watt
   float power_reference_ = BL0942_PREF;
