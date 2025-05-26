@@ -19,7 +19,7 @@ static const uint8_t BL0942_REG_USR_WRPROT = 0x1A;
 static const uint8_t BL0942_REG_TPS_CTRL = 0x1B;
 
 // TODO: Confirm insialisation works as intended
-const uint8_t BL0942_INIT[5][6] = {
+const uint8_t BL0942_INIT[][6] = {
     // Reset to default
 //    {BL0942_WRITE_COMMAND, BL0942_REG_SOFT_RESET, 0x5A, 0x5A, 0x5A, 0x38},
     #if BL0942_RESET_ENABLED
