@@ -5,6 +5,8 @@ namespace esphome {
 namespace bl0942 {
 static const char *const TAG = "bl0942";
 
+#define BL0942_RESET_ENABLED false
+
 static const uint8_t BL0942_READ_COMMAND = 0x58;
 static const uint8_t BL0942_FULL_PACKET = 0xAA;
 static const uint8_t BL0942_PACKET_HEADER = 0x55;
@@ -19,7 +21,11 @@ static const uint8_t BL0942_REG_TPS_CTRL = 0x1B;
 // TODO: Confirm insialisation works as intended
 const uint8_t BL0942_INIT[5][6] = {
     // Reset to default
-    {BL0942_WRITE_COMMAND, BL0942_REG_SOFT_RESET, 0x5A, 0x5A, 0x5A, 0x38},
+//    {BL0942_WRITE_COMMAND, BL0942_REG_SOFT_RESET, 0x5A, 0x5A, 0x5A, 0x38},
+    #if BL0942_RESET_ENABLED
+      {BL0942_WRITE_COMMAND, BL0942_REG_SOFT_RESET, 0x5A, 0x5A, 0x5A, 0x38},
+    #endif
+
     // Enable User Operation Write
     {BL0942_WRITE_COMMAND, BL0942_REG_USR_WRPROT, 0x55, 0x00, 0x00, 0xF0},
     // 0x0100 = CF_UNABLE energy pulse, AC_FREQ_SEL 50Hz, RMS_UPDATE_SEL 800mS
