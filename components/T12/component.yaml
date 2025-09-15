@@ -9,12 +9,12 @@ keywords:
 
 # 作者信息和许可证
 author:
-  - "您的名字 <您的邮箱@example.com>"
+  - "zwg <zwg@example.com>"
 license: "MIT"
 
 # 文档链接（如果有）
 documentation: "https://example.com/docs/t12-temperature-sensor"
-issue_tracker: "https://github.com/您的用户名/您的仓库/issues"
+issue_tracker: "https://github.com/zwgmy/t12/issues"
 
 # 依赖要求
 requirements:
@@ -32,12 +32,12 @@ keywords:
 
 # 作者信息和许可证
 author:
-  - "您的名字 <您的邮箱@example.com>"
+  - "zwg <zwg@example.com>"
 license: "MIT"
 
 # 文档链接（如果有）
 documentation: "https://example.com/docs/t12-temperature-sensor"
-issue_tracker: "https://github.com/您的用户名/您的仓库/issues"
+issue_tracker: "https://github.com/zwgmy/t12/issues"
 
 # 依赖要求
 requirements:
