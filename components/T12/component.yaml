@@ -1,0 +1,47 @@
+# 组件的基本信息
+name: "T12 Temperature Sensor"
+description: "A custom sensor for T12 soldering iron temperature measurement"
+keywords:
+  - temperature
+  - sensor
+  - t12
+  - soldering iron
+
+# 作者信息和许可证
+author:
+  - "您的名字 <您的邮箱@example.com>"
+license: "MIT"
+
+# 文档链接（如果有）
+documentation: "https://example.com/docs/t12-temperature-sensor"
+issue_tracker: "https://github.com/您的用户名/您的仓库/issues"
+
+# 依赖要求
+requirements:
+  - "esphome>=2023.12.0"
+
+# 组件类型
+type: "component"# 组件的基本信息
+name: "T12 Temperature Sensor"
+description: "A custom sensor for T12 soldering iron temperature measurement"
+keywords:
+  - temperature
+  - sensor
+  - t12
+  - soldering iron
+
+# 作者信息和许可证
+author:
+  - "您的名字 <您的邮箱@example.com>"
+license: "MIT"
+
+# 文档链接（如果有）
+documentation: "https://example.com/docs/t12-temperature-sensor"
+issue_tracker: "https://github.com/您的用户名/您的仓库/issues"
+
+# 依赖要求
+requirements:
+  - "esphome>=2023.12.0"
+
+# 组件类型
+type: "component"
