@@ -77,8 +77,14 @@ bool MysentechTemperatureSensor::read_scratch_pad_() {
   return success;
 }
 
+
+
+
 void MysentechTemperatureSensor::setup() {
   ESP_LOGCONFIG(TAG, "setting up Mysentech temperature sensor...");
+
+	
+	
   //if (!this->check_address_())
   if (!this->check_address_or_index_())
     return;
