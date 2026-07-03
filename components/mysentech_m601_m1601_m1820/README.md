@@ -24,6 +24,6 @@ sensor:
     id: my_sensor
     one_wire_id: bus1
     accuracy_decimals: 2
-    update_interval: 1s
+    update_interval: 5s
     repeatability: 2
 ```
