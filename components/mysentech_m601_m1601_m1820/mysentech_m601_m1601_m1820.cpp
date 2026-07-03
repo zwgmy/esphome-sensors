@@ -43,8 +43,8 @@ void MysentechTemperatureSensor::update() {
 
   this->send_command_(MYSENTECH_COMMAND_START_CONVERSION);
 
-  // 修复弃用警告：使用 const char* 版本
   this->set_timeout(this->get_address_name().c_str(), this->millis_to_wait_for_conversion_(), [this] {
+  //this->set_timeout(this->get_address_name(), this->millis_to_wait_for_conversion_(), [this] {
     if (!this->read_scratch_pad_() || !this->check_scratch_pad_()) {
       this->publish_state(NAN);
       return;
@@ -78,7 +78,7 @@ bool MysentechTemperatureSensor::read_scratch_pad_() {
 }
 
 void MysentechTemperatureSensor::setup() {
-  ESP_LOGCONFIG(TAG, "Setting up Mysentech temperature sensor...");
+  ESP_LOGCONFIG(TAG, "setting up Mysentech temperature sensor...");
 
   if (this->bus_ == nullptr) {
     ESP_LOGE(TAG, "OneWire bus is null!");
@@ -92,28 +92,32 @@ void MysentechTemperatureSensor::setup() {
     ESP_LOGI(TAG, "No address configured, using index 0 (first device on bus).");
   }
 
-  // 使用新 API 检查地址或索引
-  if (!this->check_address_or_index_()) {
+
+
+  //if (!this->check_address_())
+  if (!this->check_address_or_index_()){
     ESP_LOGE(TAG, "check_address_or_index_() failed, no valid device found.");
     this->mark_failed();
     return;
   }
-
-  // 打印选中的地址（便于调试）
+   // 打印选中的地址（便于调试）
   ESP_LOGI(TAG, "Selected device address: 0x%016llX", this->address_);
+  
 
-  if (!this->read_scratch_pad_()) {
+  if (!this->read_scratch_pad_()){
     ESP_LOGE(TAG, "Initial read_scratch_pad failed.");
     this->mark_failed();
     return;
   }
-  if (!this->check_scratch_pad_()) {
+
+
+  if (!this->check_scratch_pad_()){
     ESP_LOGE(TAG, "Initial check_scratch_pad failed.");
     this->mark_failed();
     return;
   }
 
-  // 配置传感器参数（原有逻辑）
+  // ===== 配置传感器参数（使用 static_cast 代替 std::to_underlying） =====
   uint8_t cfg {this->scratch_pad_[6]};
 
   cfg &= ~0x03;
@@ -140,8 +144,7 @@ void MysentechTemperatureSensor::setup() {
     // write value to EEPROM
     this->send_command_(MYSENTECH_COMMAND_COPY_SCRATCH_PAD);
   }
-
-  ESP_LOGI(TAG, "Setup completed successfully.");
+    ESP_LOGI(TAG, "Setup completed successfully.");
 }
 
 bool MysentechTemperatureSensor::check_scratch_pad_() {
