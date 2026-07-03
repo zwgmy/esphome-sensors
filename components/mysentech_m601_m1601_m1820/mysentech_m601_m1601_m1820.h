@@ -36,6 +36,8 @@ class MysentechTemperatureSensor : public PollingComponent, public sensor::Senso
   void update() override;
   void dump_config() override;
 
+  void set_address(uint64_t address) { this->address_ = address; }  //new
+
   void set_repeatability(uint8_t repeatability) { 
     switch(repeatability){
       case 0: this->repeatability_ =   CfgRepeatability::Low;     break;
@@ -48,7 +50,9 @@ class MysentechTemperatureSensor : public PollingComponent, public sensor::Senso
  protected:
   CfgRepeatability repeatability_;
   uint8_t scratch_pad_[9] = {0};
-  
+
+  std::optional<uint64_t> address_;//new
+
   /// Get the number of milliseconds we have to wait for the conversion phase.
   uint16_t millis_to_wait_for_conversion_() const;
   bool read_scratch_pad_();
