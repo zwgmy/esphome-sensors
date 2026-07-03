@@ -44,11 +44,11 @@ void MysentechTemperatureSensor::update() {
   this->send_command_(MYSENTECH_COMMAND_START_CONVERSION);
 
   //this->set_timeout(this->get_address_name(), this->millis_to_wait_for_conversion_(), [this] {
-  this->set_timeout(this->get_address_name().c_str(), this->millis_to_wait_for_conversion_(), [this] {
-    if (!this->read_scratch_pad_() || !this->check_scratch_pad_()) {
-      this->publish_state(NAN);
+  //this->set_timeout(this->get_address_name().c_str(), this->millis_to_wait_for_conversion_(), [this] {
+  //  if (!this->read_scratch_pad_() || !this->check_scratch_pad_()) {
+  //    this->publish_state(NAN);
       return;
-    }
+  //  }
 
     float tempc = this->get_temp_c_();
     ESP_LOGD(TAG, "'%s': Got Temperature=%.2f°C", this->get_name().c_str(), tempc);
@@ -79,8 +79,8 @@ bool MysentechTemperatureSensor::read_scratch_pad_() {
 
 void MysentechTemperatureSensor::setup() {
   ESP_LOGCONFIG(TAG, "setting up Mysentech temperature sensor...");
-  //if (!this->check_address_())
-  if (this->address_ == 0) 
+  if (!this->check_address_())
+  //if (this->address_ == 0) 
     return;
   if (!this->read_scratch_pad_())
     return;
