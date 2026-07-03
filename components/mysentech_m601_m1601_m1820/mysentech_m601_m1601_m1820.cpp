@@ -43,7 +43,7 @@ void MysentechTemperatureSensor::update() {
 
   this->send_command_(MYSENTECH_COMMAND_START_CONVERSION);
 
-  //this->set_timeout(this->get_address_name(), this->millis_to_wait_for_conversion_(), [this] {
+  // 使用 const char* 版本避免弃用警告
   this->set_timeout(this->get_address_name().c_str(), this->millis_to_wait_for_conversion_(), [this] {
     if (!this->read_scratch_pad_() || !this->check_scratch_pad_()) {
       this->publish_state(NAN);
@@ -77,35 +77,75 @@ bool MysentechTemperatureSensor::read_scratch_pad_() {
   return success;
 }
 
-
-
-
 void MysentechTemperatureSensor::setup() {
-  ESP_LOGCONFIG(TAG, "setting up Mysentech temperature sensor...");
+  ESP_LOGCONFIG(TAG, "Setting up Mysentech temperature sensor...");
 
-	
-	
-  //if (!this->check_address_())
-  if (!this->check_address_or_index_())
+  // ---------- 新增：扫描总线，打印所有设备，并自动选择第一个（若地址未配置） ----------
+  if (this->bus_ == nullptr) {
+    ESP_LOGE(TAG, "OneWire bus is null!");
+    this->mark_failed();
     return;
-  if (!this->read_scratch_pad_())
+  }
+
+  // 复位总线
+  if (!this->bus_->reset()) {
+    ESP_LOGE(TAG, "Bus reset failed, no devices?");
+    this->mark_failed();
     return;
-  if (!this->check_scratch_pad_())
+  }
+
+  // 搜索所有设备
+  std::vector<uint64_t> devices;
+  uint64_t addr;
+  while (this->bus_->search(addr)) {
+    devices.push_back(addr);
+    // 继续搜索下个设备
+  }
+  // 结束搜索后需重置
+  this->bus_->reset_search();
+
+  ESP_LOGI(TAG, "Found %zu device(s) on 1-Wire bus", devices.size());
+  for (size_t i = 0; i < devices.size(); i++) {
+    ESP_LOGI(TAG, "  Device %zu: 0x%016llX", i, devices[i]);
+  }
+
+  // 如果用户未配置地址（address_ == 0），且有设备，则自动选用第一个
+  if (this->address_ == 0 && !devices.empty()) {
+    this->address_ = devices[0];
+    ESP_LOGI(TAG, "No address configured, auto-selected first device: 0x%016llX", this->address_);
+  }
+
+  // ---------- 原有的地址检查（使用新API） ----------
+  if (!this->check_address_or_index_()) {
+    ESP_LOGE(TAG, "check_address_or_index_() failed, no valid device found.");
+    this->mark_failed();
     return;
+  }
+
+  if (!this->read_scratch_pad_()) {
+    ESP_LOGE(TAG, "Initial read_scratch_pad failed.");
+    this->mark_failed();
+    return;
+  }
+  if (!this->check_scratch_pad_()) {
+    ESP_LOGE(TAG, "Initial check_scratch_pad failed.");
+    this->mark_failed();
+    return;
+  }
 
   uint8_t cfg {this->scratch_pad_[6]};
 
-	cfg &= ~0x03;
+  cfg &= ~0x03;
   cfg |= static_cast<uint8_t>(this->repeatability_);
-	//cfg |= std::to_underlying(this->repeatability_);
+  //cfg |= std::to_underlying(this->repeatability_);
 
-	cfg &= ~0x1C;
+  cfg &= ~0x1C;
   cfg |= static_cast<uint8_t>(CfgMps::Single);
-	//cfg |= std::to_underlying(CfgMps::Single);	
+  //cfg |= std::to_underlying(CfgMps::Single);
 
   cfg &= ~0x80;
   cfg |= static_cast<uint8_t>(CfgAlarm::Disable);
-	//cfg |= std::to_underlying(CfgAlarm::Disable);
+  //cfg |= std::to_underlying(CfgAlarm::Disable);
 
   if (this->scratch_pad_[6] == cfg)
     return;
@@ -122,6 +162,8 @@ void MysentechTemperatureSensor::setup() {
     // write value to EEPROM
     this->send_command_(MYSENTECH_COMMAND_COPY_SCRATCH_PAD);
   }
+
+  ESP_LOGI(TAG, "Setup completed successfully.");
 }
 
 bool MysentechTemperatureSensor::check_scratch_pad_() {
