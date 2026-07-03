@@ -80,45 +80,27 @@ bool MysentechTemperatureSensor::read_scratch_pad_() {
 void MysentechTemperatureSensor::setup() {
   ESP_LOGCONFIG(TAG, "Setting up Mysentech temperature sensor...");
 
-  // ===== 新增：扫描总线并自动选择第一个设备（若未配置地址） =====
   if (this->bus_ == nullptr) {
     ESP_LOGE(TAG, "OneWire bus is null!");
     this->mark_failed();
     return;
   }
 
-  // 复位总线
-  if (!this->bus_->reset()) {
-    ESP_LOGE(TAG, "Bus reset failed, no devices?");
-    this->mark_failed();
-    return;
+  // 如果未设置 address_，则使用索引 0 自动选择第一个设备
+  if (this->address_ == 0) {
+    this->set_index(0);
+    ESP_LOGI(TAG, "No address configured, using index 0 (first device on bus).");
   }
 
-  // 搜索所有设备
-  std::vector<uint64_t> devices;
-  uint64_t addr;
-  while (this->bus_->search(addr)) {
-    devices.push_back(addr);
-  }
-  this->bus_->reset_search();  // 重置搜索状态
-
-  ESP_LOGI(TAG, "Found %zu device(s) on 1-Wire bus", devices.size());
-  for (size_t i = 0; i < devices.size(); i++) {
-    ESP_LOGI(TAG, "  Device %zu: 0x%016llX", i, devices[i]);
-  }
-
-  // 如果用户未配置地址（address_ == 0）且总线上有设备，自动选用第一个
-  if (this->address_ == 0 && !devices.empty()) {
-    this->address_ = devices[0];
-    ESP_LOGI(TAG, "No address configured, auto-selected first device: 0x%016llX", this->address_);
-  }
-
-  // ===== 原有的地址检查（改用新 API check_address_or_index_） =====
+  // 使用新 API 检查地址或索引
   if (!this->check_address_or_index_()) {
     ESP_LOGE(TAG, "check_address_or_index_() failed, no valid device found.");
     this->mark_failed();
     return;
   }
+
+  // 打印选中的地址（便于调试）
+  ESP_LOGI(TAG, "Selected device address: 0x%016llX", this->address_);
 
   if (!this->read_scratch_pad_()) {
     ESP_LOGE(TAG, "Initial read_scratch_pad failed.");
