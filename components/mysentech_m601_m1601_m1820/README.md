@@ -1,5 +1,5 @@
 
-Mysentech(敏源传感)M1820Z温度传感器接入esphome  
+Mysentech(敏源传感)M1820Z温度传感器接入esphome  ,更新
 转载https://bbs.hassbian.com/thread-26116-1-1.html
 ```c
 external_components:
@@ -8,7 +8,7 @@ external_components:
       url: https://github.com/zwgmy/esphome-sensors
 #      ref: dev components/mysentech_m601_m1601_m1820
     refresh: 5s
-    components: [ mysentech_m601_m1601_m1820]
+    components: [ mysentech_m601_m1601_m1820, one_wire ]
     
 one_wire:
   - platform: gpio
