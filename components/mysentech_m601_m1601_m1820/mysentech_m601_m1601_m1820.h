@@ -2,7 +2,7 @@
 
 #include "esphome/core/component.h"
 #include "esphome/components/sensor/sensor.h"
-//#include "esphome/components/one_wire/one_wire.h"
+#include "esphome/components/one_wire/one_wire.h"
 
 namespace esphome {
 namespace mysentech_m601_m1601_m1820 {
