@@ -36,7 +36,8 @@ class MysentechTemperatureSensor : public PollingComponent, public sensor::Senso
   void update() override;
   void dump_config() override;
 
-  void set_address(uint64_t address) { this->address_ = address; }  //new
+  // 设置设备地址（直接使用基类的 address_ 成员）
+  void set_address(uint64_t address) { this->address_ = address; }
 
   void set_repeatability(uint8_t repeatability) { 
     switch(repeatability){
@@ -45,13 +46,13 @@ class MysentechTemperatureSensor : public PollingComponent, public sensor::Senso
       case 2: 
       default:  this->repeatability_ = CfgRepeatability::High;    break;
     }
-    }
+  }
 
  protected:
   CfgRepeatability repeatability_;
   uint8_t scratch_pad_[9] = {0};
 
-  std::optional<uint64_t> address_;//new
+  // 注意：address_ 已由基类 one_wire::OneWireDevice 提供，此处不再重复定义
 
   /// Get the number of milliseconds we have to wait for the conversion phase.
   uint16_t millis_to_wait_for_conversion_() const;
