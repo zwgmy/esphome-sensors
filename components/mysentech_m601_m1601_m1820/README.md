@@ -1,5 +1,6 @@
 
 Mysentech(敏源传感)M1820Z温度传感器接入esphome  ,更新到esphome 2026.6.x
+
 转载https://bbs.hassbian.com/thread-26116-1-1.html
 ```c
 external_components:
